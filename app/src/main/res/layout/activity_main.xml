@@ -67,4 +67,15 @@
         app:layout_constraintStart_toEndOf="@+id/buttonAdd"
         app:layout_constraintTop_toBottomOf="@+id/editTextTitleID" />
 
+    <TextView
+        android:id="@+id/txtDB"
+        android:layout_width="214dp"
+        android:layout_height="89dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Database info shows here."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdd" />
+
 </android.support.constraint.ConstraintLayout>

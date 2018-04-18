@@ -1,6 +1,7 @@
 package aj.hw8;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
@@ -28,7 +29,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // SQL string statement
+        // SQL statement
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + ID + " int not null primary key, " + LAST + " varchar(100), " + TITLE + " varchar(100), " + LOCATION + " varchar(255))";
         // Execute SQL statement
         db.execSQL(CREATE_TABLE);
@@ -40,13 +41,35 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
     }
 
-    public void addHandler(int id, String name, String titleID) {
+    public void AddToDatabase(Employee employee) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ID, id);
-        values.put(LAST, id);
+        values.put(ID, employee.ID);
+        values.put(LAST, employee.name);
+        values.put(TITLE, employee.titleID);
 
         db.insert(TABLE_NAME, null, values);
         db.close();
+    }
+
+    public Employee QueryDatabase(String employeeID){
+
+        // SQL statement
+        String query = "Select * FROM " + TABLE_NAME + " WHERE " + ID + " =  \"" + employeeID + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        Employee employee = new Employee();
+
+        if(cursor.moveToFirst()){
+            employee.SetterID(cursor.getString(0));
+            employee.SetterLast(cursor.getString(1));
+            employee.SetterTitleID(cursor.getString(2));
+            cursor.close();
+        } else{
+            employee = null;
+        }
+        db.close();
+
+        return employee;
     }
 }
